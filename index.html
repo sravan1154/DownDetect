@@ -1064,7 +1064,7 @@
             labelEl.className = `font-bold text-lg ${color}`;
             barEl.className = `h-full rounded-full transition-all duration-700 ${barColor}`;
             barEl.style.width = score + '%';
-    card.style.display = 'block';
+    card.classList.remove('hidden');
         }
 
 
@@ -1162,7 +1162,7 @@ async function runDiagnostic() {
             resultsCard.classList.add('hidden');
 
             if (confidenceCard) {
-                confidenceCard.style.display = 'none';
+                confidenceCard.classList.add('hidden');
             }
 
             if (confidenceScore) confidenceScore.textContent = '';
@@ -1186,7 +1186,7 @@ async function runDiagnostic() {
                 updateConfidenceUI(result);
 
                 if (confidenceCard) {
-                    confidenceCard.style.display = 'block';
+                    confidenceCard.classList.remove('hidden');
                 }
 
                 if (result.status !== 'INVALID') {
