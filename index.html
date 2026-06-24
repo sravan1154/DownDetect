@@ -43,6 +43,17 @@
         }
 
         /* ---------------------------------------------------- */
+        /* THEME TOGGLE - LIGHT MODE VIA COLOR INVERSION       */
+        /* ---------------------------------------------------- */
+        html.light-mode {
+            filter: invert(1) hue-rotate(180deg);
+        }
+        html.light-mode img,
+        html.light-mode video {
+            filter: invert(1) hue-rotate(180deg);
+        }
+
+        /* ---------------------------------------------------- */
         /* SPACE TELEMETRY ENGINE - ROCKET CSS KEYFRAMES       */
         /* ---------------------------------------------------- */
 
@@ -191,9 +202,15 @@
                     <p class="text-xs text-sky-400 font-medium">Real-Time Client-Side Probe Engine</p>
                 </div>
             </div>
-            <div class="flex items-center gap-2 text-sm bg-slate-900/80 border border-slate-800 rounded-full py-1.5 px-4 shadow-inner">
-                <span class="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span class="text-xs text-slate-400 font-medium" id="network-speed-label">Diagnostic Node Active</span>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 text-sm bg-slate-900/80 border border-slate-800 rounded-full py-1.5 px-4 shadow-inner">
+                    <span class="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-xs text-slate-400 font-medium" id="network-speed-label">Diagnostic Node Active</span>
+                </div>
+                <button id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle light/dark mode"
+                        class="h-9 w-9 flex items-center justify-center bg-slate-900/80 border border-slate-800 hover:border-slate-700 rounded-full transition-all text-slate-300 hover:text-sky-400">
+                    <i class="fa-solid fa-sun" id="theme-icon"></i>
+                </button>
             </div>
         </div>
     </header>
@@ -341,6 +358,7 @@
     <script>
         const DIAG_DB_KEY = "dd_user_diagnostics";
         const SITES_DB_KEY = "dd_monitored_sites";
+        const THEME_DB_KEY = "dd_theme";
 
         const defaultSites = [
             { id: 'google', name: 'Google', domain: 'google.com' },
@@ -351,6 +369,28 @@
 
         let monitoredSites = [];
         let editingSiteId = null; // Tracks which site index is currently in edit mode
+
+        // ----------------------------------------------------
+        // THEME TOGGLE LOGIC
+        // ----------------------------------------------------
+        function applyStoredTheme() {
+            const saved = localStorage.getItem(THEME_DB_KEY) || 'dark';
+            const icon = document.getElementById('theme-icon');
+            if (saved === 'light') {
+                document.documentElement.classList.add('light-mode');
+                if (icon) icon.className = 'fa-solid fa-moon';
+            } else {
+                document.documentElement.classList.remove('light-mode');
+                if (icon) icon.className = 'fa-solid fa-sun';
+            }
+        }
+
+        function toggleTheme() {
+            const isLight = document.documentElement.classList.toggle('light-mode');
+            localStorage.setItem(THEME_DB_KEY, isLight ? 'light' : 'dark');
+            const icon = document.getElementById('theme-icon');
+            if (icon) icon.className = isLight ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        }
 
         // ----------------------------------------------------
         // HIGH FIDELITY ROCKET ANIMATION VECTOR SCENES DATA
@@ -587,6 +627,7 @@
         };
 
         window.onload = function() {
+            applyStoredTheme();
             loadMonitoredSites();
             renderHistory();
             checkPopularSites();
