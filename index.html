@@ -289,6 +289,29 @@
                     </div>
                 </div>
 
+                <div id="confidence-card"
+                     class="hidden mt-4 bg-slate-950/60 border border-slate-800/80 rounded-xl p-5">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-xs uppercase tracking-wider text-slate-500 font-semibold">
+                                Availability Confidence
+                            </p>
+                            <h3 id="confidence-score"
+                                class="text-3xl font-extrabold text-emerald-400">0%</h3>
+                        </div>
+                        <div class="text-right">
+                            <p id="confidence-label" class="font-bold text-lg text-emerald-400">Excellent</p>
+                            <p class="text-xs text-slate-500">Based on DNS, connectivity and latency</p>
+                        </div>
+                    </div>
+                    <div class="w-full h-2 bg-slate-800 rounded-full mt-4 overflow-hidden">
+                        <div id="confidence-bar"
+                             class="h-full bg-emerald-500 rounded-full transition-all duration-700"
+                             style="width:0%"></div>
+                    </div>
+                </div>
+
+
             </div>
 
             <!-- Local Session Audit Logs -->
@@ -368,6 +391,7 @@
         ];
 
         let monitoredSites = [];
+        let activeCheckId = 0;
         let editingSiteId = null; // Tracks which site index is currently in edit mode
 
         // ----------------------------------------------------
@@ -992,6 +1016,58 @@
             }
         }
 
+        
+        function calculateConfidence(result) {
+            let score = 0;
+            if (result.status === 'UP') {
+                score += 70;
+                if (result.latency <= 100) score += 30;
+                else if (result.latency <= 300) score += 20;
+                else if (result.latency <= 700) score += 10;
+            } else if (result.status === 'UP_RESTRICTED') score = 90;
+            else if (result.status === 'DOWN') score = 25;
+            return Math.min(100, score);
+        }
+
+        function updateConfidenceUI(result) {
+            const card = document.getElementById('confidence-card');
+            if (!card) return;
+
+            const scoreEl = document.getElementById('confidence-score');
+            const labelEl = document.getElementById('confidence-label');
+            const barEl = document.getElementById('confidence-bar');
+
+            const score = calculateConfidence(result);
+
+            let label = 'Poor';
+            let color = 'text-red-400';
+            let barColor = 'bg-red-500';
+
+            if (score >= 90) {
+                label = 'Excellent';
+                color = 'text-emerald-400';
+                barColor = 'bg-emerald-500';
+            } else if (score >= 70) {
+                label = 'Good';
+                color = 'text-sky-400';
+                barColor = 'bg-sky-500';
+            } else if (score >= 40) {
+                label = 'Unstable';
+                color = 'text-amber-400';
+                barColor = 'bg-amber-500';
+            }
+
+            
+            scoreEl.innerText = score + '%';
+            scoreEl.className = `text-3xl font-extrabold ${color}`;
+            labelEl.innerText = label;
+            labelEl.className = `font-bold text-lg ${color}`;
+            barEl.className = `h-full rounded-full transition-all duration-700 ${barColor}`;
+            barEl.style.width = score + '%';
+    card.style.display = 'block';
+        }
+
+
         function updateResultsUI(result) {
             const resultsCard = document.getElementById('results-card');
             const iconBg = document.getElementById('result-icon-bg');
@@ -1064,33 +1140,55 @@
             }
         }
 
-        async function runDiagnostic() {
+        
+
+async function runDiagnostic() {
+            const checkId = ++activeCheckId;
+
             const inputField = document.getElementById('url-input');
             const targetUrl = inputField.value.trim();
+
             if (!targetUrl) return;
 
             const resultsCard = document.getElementById('results-card');
             const spaceStageContainer = document.getElementById('space-stage-container');
             const spaceStage = document.getElementById('space-stage');
 
-            // Hide previous results card while launching
+            const confidenceCard = document.getElementById('confidence-card');
+            const confidenceScore = document.getElementById('confidence-score');
+            const confidenceLabel = document.getElementById('confidence-label');
+            const confidenceBar = document.getElementById('confidence-bar');
+
             resultsCard.classList.add('hidden');
-            
-            // Show space view and ignite checking state rocket
+
+            if (confidenceCard) {
+                confidenceCard.style.display = 'none';
+            }
+
+            if (confidenceScore) confidenceScore.textContent = '';
+            if (confidenceLabel) confidenceLabel.textContent = '';
+            if (confidenceBar) confidenceBar.style.width = '0%';
+
             spaceStageContainer.classList.remove('hidden');
             spaceStage.innerHTML = VISUAL_SCENES.CHECKING;
 
             const result = await runWebsiteUptimeCheck(targetUrl);
-            
-            // Minimum flight duration of 1.5 seconds for complete visual trajectory immersion
+
             setTimeout(() => {
-                // Fetch dynamic vector scene
-                const activeScene = VISUAL_SCENES[result.status] || VISUAL_SCENES.INVALID;
+                if (checkId !== activeCheckId) return;
+
+                const activeScene =
+                    VISUAL_SCENES[result.status] || VISUAL_SCENES.INVALID;
+
                 spaceStage.innerHTML = activeScene;
-                
-                // Mount diagnostic details card
+
                 updateResultsUI(result);
-                
+                updateConfidenceUI(result);
+
+                if (confidenceCard) {
+                    confidenceCard.style.display = 'block';
+                }
+
                 if (result.status !== 'INVALID') {
                     saveToHistory(result);
                 }
