@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>downdetect | Live Global Website Status</title>
+    <!-- Tailwind CSS for utility styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Premium Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .glow-green {
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.15);
+        }
+        .glow-red {
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.15);
+        }
+        .glow-blue {
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.12);
+        }
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* ---------------------------------------------------- */
+        /* SPACE TELEMETRY ENGINE - ROCKET CSS KEYFRAMES       */
+        /* ---------------------------------------------------- */
+
+        /* Scrolling space stars background */
+        @keyframes fastStars {
+            0% { transform: translateY(-100px); }
+            100% { transform: translateY(180px); }
+        }
+        .star-fast {
+            animation: fastStars 0.8s linear infinite;
+        }
+        
+        /* Gentle glowing stars */
+        @keyframes starPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.9; }
+        }
+        .star-pulse {
+            animation: starPulse 2s ease-in-out infinite;
+        }
+
+        /* Takeoff high-speed rocket vibration shake */
+        @keyframes takeoffShake {
+            0%, 100% { transform: translate(200px, 75px) rotate(0deg); }
+            25% { transform: translate(198.5px, 76.5px) rotate(-0.5deg); }
+            50% { transform: translate(201px, 74.5px) rotate(0.5deg); }
+            75% { transform: translate(199px, 75.5px) rotate(-0.2deg); }
+        }
+        .rocket-shake {
+            animation: takeoffShake 0.1s linear infinite;
+            transform-origin: center;
+        }
+
+        /* Perfect landing deceleration curve */
+        @keyframes descendLand {
+            0% { transform: translate(200px, -50px); }
+            75% { transform: translate(200px, 110px); }
+            90% { transform: translate(200px, 114px); }
+            100% { transform: translate(200px, 112px); }
+        }
+        .rocket-land {
+            animation: descendLand 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* Flag unfurling from launch site */
+        @keyframes flagUnfurl {
+            0% { transform: translate(232px, 115px) scaleX(0); }
+            75% { transform: translate(232px, 115px) scaleX(0); }
+            100% { transform: translate(232px, 115px) scaleX(1); }
+        }
+        .flag-pop {
+            animation: flagUnfurl 2.4s ease-out forwards;
+            transform-origin: left;
+        }
+
+        /* Thruster cutoff decay */
+        @keyframes fireDecay {
+            0% { transform: scale(1); opacity: 1; }
+            80% { transform: scale(0.6); opacity: 0.8; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        .land-fire {
+            animation: fireDecay 1.8s ease-out forwards;
+            transform-origin: top;
+        }
+
+        /* Smooth visual rise of planetary target surface */
+        @keyframes planetRiseAction {
+            0% { transform: translateY(45px); }
+            100% { transform: translateY(0); }
+        }
+        .planet-rise {
+            animation: planetRiseAction 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Floating lost-in-space slow drift */
+        @keyframes lostFloating {
+            0%, 100% { transform: translate(200px, 85px) rotate(-45deg); }
+            50% { transform: translate(195px, 95px) rotate(-40deg); }
+        }
+        .rocket-float {
+            animation: lostFloating 3.5s ease-in-out infinite;
+        }
+
+        /* Neon retro hologram banner slide-in */
+        @keyframes hologramPulse {
+            0% { transform: translate(110px, 18px) scale(0.9); opacity: 0; }
+            100% { transform: translate(110px, 18px) scale(1); opacity: 1; }
+        }
+        .hologram-slide {
+            animation: hologramPulse 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation-delay: 0.6s;
+            opacity: 0;
+        }
+
+        /* Direct diagnostic nose dive for global crashes */
+        @keyframes crashDive {
+            0% { transform: translate(280px, -40px) rotate(115deg); }
+            100% { transform: translate(190px, 142px) rotate(75deg); }
+        }
+        .rocket-crash {
+            animation: crashDive 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+        }
+
+        /* Explosion fireball expansion dynamics */
+        @keyframes cloudBurst {
+            0% { transform: translate(190px, 142px) scale(0); opacity: 0; }
+            70% { transform: translate(190px, 142px) scale(0); opacity: 0; }
+            75% { transform: translate(190px, 142px) scale(0.6); opacity: 1; }
+            100% { transform: translate(190px, 142px) scale(1); opacity: 1; }
+        }
+        .explosion-cloud {
+            animation: cloudBurst 1.1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            transform-origin: center;
+        }
+
+        /* Global Canvas screen impact shake */
+        @keyframes monitorShake {
+            0%, 100% { transform: translate(0, 0); }
+            70% { transform: translate(0, 0); }
+            72% { transform: translate(-4px, 2px); }
+            74% { transform: translate(4px, -1px); }
+            76% { transform: translate(-2px, -4px); }
+            78% { transform: translate(3px, 3px); }
+            80% { transform: translate(0, 0); }
+        }
+        .animate-screen-shake {
+            animation: monitorShake 1.1s ease-in-out forwards;
+        }
+    </style>
+</head>
+<body class="text-[#f8fafc] min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-slate-900 overflow-x-hidden">
+
+    <!-- Custom Toast Notification System Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Navigation / Header Bar -->
+    <header class="border-b border-slate-800/80 bg-[#0b0f19]/90 backdrop-blur-md sticky top-0 z-40 py-4 px-6">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 bg-gradient-to-tr from-sky-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
+                    <i class="fa-solid fa-network-wired text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">downdetect</h1>
+                    <p class="text-xs text-sky-400 font-medium">Real-Time Client-Side Probe Engine</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 text-sm bg-slate-900/80 border border-slate-800 rounded-full py-1.5 px-4 shadow-inner">
+                <span class="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-xs text-slate-400 font-medium" id="network-speed-label">Diagnostic Node Active</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Grid Content -->
+    <main class="max-w-6xl w-full mx-auto p-4 md:p-6 lg:p-8 flex-grow grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Left 2 Columns: Checker & Local Session Logs -->
+        <div class="lg:col-span-2 flex flex-col gap-6">
+            
+            <!-- Checker Input Container -->
+            <div class="bg-gradient-to-b from-slate-900/90 to-slate-950/95 border border-slate-800/80 rounded-2xl p-6 md:p-8 glow-blue relative overflow-hidden shadow-2xl">
+                <div class="absolute -right-20 -top-20 w-48 h-48 bg-sky-500/5 rounded-full blur-3xl"></div>
+                
+                <h2 class="text-2xl font-extrabold text-white mb-2 flex items-center gap-2">
+                    Is it down, or is it just me?
+                </h2>
+                <p class="text-slate-400 text-sm mb-6">
+                    Enter any website domain to run a direct, multi-stage connectivity audit bypassing standard CORS blockages.
+                </p>
+
+                <!-- Input Field Group (Initial default value set to empty string) -->
+                <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                    <div class="relative flex-grow">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <input type="text" id="url-input" 
+                               class="w-full bg-slate-950 border border-slate-800/80 hover:border-slate-700 focus:border-sky-500 rounded-xl py-3.5 pl-11 pr-4 text-white placeholder-slate-500 outline-none transition-all font-medium text-base shadow-inner" 
+                               placeholder="e.g., github.com or google.com" value=""
+                               onkeydown="if(event.key === 'Enter') runDiagnostic()">
+                    </div>
+                    <button onclick="runDiagnostic()" 
+                            class="bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-slate-950 font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-sky-500/10 flex items-center justify-center gap-2 text-base active:scale-95">
+                        <i class="fa-solid fa-bolt text-slate-950"></i> Check Status
+                    </button>
+                </div>
+
+                <!-- SPACE TELEMETRY VIEWPORT CONTAINER (High-fidelity vector rocket viewport) -->
+                <div id="space-stage-container" class="hidden mb-6 bg-[#060911] border border-slate-800/90 rounded-2xl overflow-hidden shadow-2xl relative min-h-[180px] flex items-center justify-center">
+                    <div class="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,24,38,0)_95%,rgba(0,0,0,0.3)_95%)] bg-[length:100%_4px] opacity-25"></div>
+                    <div id="space-stage" class="w-full h-full min-h-[180px] flex items-center justify-center"></div>
+                </div>
+
+                <!-- Results Output Card -->
+                <div id="results-card" class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-6 hidden flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-300 shadow-2xl">
+                    <div class="flex items-center gap-4 w-full md:w-auto">
+                        <div id="result-icon-bg" class="h-16 w-16 rounded-full flex items-center justify-center text-2xl flex-shrink-0 transition-transform duration-300">
+                            <!-- Icon populated dynamically -->
+                        </div>
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="font-extrabold text-xl tracking-tight" id="result-verdict">checking</span>
+                                <span class="text-xs bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider" id="result-host">---</span>
+                            </div>
+                            <p class="text-sm text-slate-400 mt-1.5" id="result-details">Please wait while diagnostic commands execute.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-center md:items-end gap-3 w-full md:w-auto border-t border-slate-800 md:border-none pt-4 md:pt-0">
+                        <div class="text-center md:text-right">
+                            <span class="text-xs text-slate-500 block uppercase tracking-wider font-semibold">Response Time</span>
+                            <span class="font-bold text-lg text-slate-300" id="result-latency">-- ms</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 justify-center md:justify-end mt-1">
+                            <!-- Clickable Link to visit the evaluated site -->
+                            <a id="visit-domain-btn" target="_blank" rel="noopener noreferrer" 
+                               class="hidden bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/30 px-4 py-2 rounded-lg text-xs font-bold tracking-wide transition-all uppercase flex items-center gap-1.5">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Visit Domain
+                            </a>
+                            <button id="report-outage-btn" onclick="registerUserOutage()" 
+                                    class="hidden bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 px-4 py-2 rounded-lg text-xs font-bold tracking-wide transition-all uppercase flex items-center gap-2">
+                                <i class="fa-solid fa-circle-exclamation"></i> Flag Client Issue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Local Session Audit Logs -->
+            <div class="bg-slate-900/30 border border-slate-800/80 rounded-2xl p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-base text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-slate-400"></i> Local Session Logs
+                    </h3>
+                    <button onclick="clearHistory()" class="text-xs text-slate-500 hover:text-sky-400 transition-all font-medium bg-slate-950/40 border border-slate-800 hover:border-slate-700 px-2.5 py-1 rounded-md">Clear Audit Trail</button>
+                </div>
+                <!-- Dynamic logs container -->
+                <div id="history-container" class="flex flex-col gap-2"></div>
+                <!-- Stationary status placeholder -->
+                <p class="text-slate-500 text-sm py-4 text-center italic" id="empty-history">No diagnostics performed yet in this session.</p>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Popular Monitoring (Now Editable) -->
+        <div class="flex flex-col gap-6">
+            
+            <!-- Quick Glance Global Monitor (Fully Editable) -->
+            <div class="bg-slate-900/30 border border-slate-800/80 rounded-2xl p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-base text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-desktop text-sky-400"></i> My Monitored Sites
+                    </h3>
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleAddForm()" class="text-[10px] text-sky-400 hover:text-sky-300 font-bold bg-sky-500/10 px-2.5 py-1.5 rounded-md border border-sky-500/20 flex items-center gap-1 transition-all">
+                            <i class="fa-solid fa-plus"></i> Add
+                        </button>
+                        <button onclick="checkPopularSites()" class="text-[10px] text-slate-300 hover:text-white font-bold bg-slate-800 hover:bg-slate-700 px-2.5 py-1.5 rounded-md border border-slate-700 flex items-center gap-1 transition-all">
+                            <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Inline Site Form (Hidden by default) -->
+                <div id="add-site-form" class="hidden bg-slate-950 border border-slate-800/80 rounded-xl p-4 mb-4 flex flex-col gap-3 transition-all duration-300">
+                    <h4 class="text-xs font-bold text-sky-400 uppercase tracking-wider">Add Custom Monitor</h4>
+                    <div class="flex flex-col gap-2">
+                        <input type="text" id="new-site-name" placeholder="Name (e.g., My Blog)" class="w-full bg-slate-900 border border-slate-800 focus:border-sky-500 rounded-lg px-3 py-2 text-xs text-white outline-none">
+                        <input type="text" id="new-site-domain" placeholder="Domain (e.g., blog.com)" class="w-full bg-slate-900 border border-slate-800 focus:border-sky-500 rounded-lg px-3 py-2 text-xs text-white outline-none" onkeydown="if(event.key === 'Enter') saveCustomSite()">
+                    </div>
+                    <div class="flex justify-end gap-2 mt-1">
+                        <button onclick="toggleAddForm()" class="text-[10px] text-slate-400 hover:text-white px-2.5 py-1">Cancel</button>
+                        <button onclick="saveCustomSite()" class="bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-slate-950 font-bold px-3 py-1.5 rounded-md text-[10px]">Save Monitor</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3" id="popular-sites-grid">
+                    <!-- Custom site cards dynamic rendering -->
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer container -->
+    <footer class="border-t border-slate-900 bg-[#080b12] py-6 px-6 text-center mt-8">
+        <p class="text-xs text-slate-500 font-medium">
+            downdetect &bull; Running direct CORS-free multi-channel network queries &bull; Version 4.1.0
+        </p>
+    </footer>
+
+    <script>
+        const DIAG_DB_KEY = "dd_user_diagnostics";
+        const SITES_DB_KEY = "dd_monitored_sites";
+
+        const defaultSites = [
+            { id: 'google', name: 'Google', domain: 'google.com' },
+            { id: 'github', name: 'GitHub', domain: 'github.com' },
+            { id: 'netflix', name: 'Netflix', domain: 'netflix.com' },
+            { id: 'youtube', name: 'YouTube', domain: 'youtube.com' }
+        ];
+
+        let monitoredSites = [];
+        let editingSiteId = null; // Tracks which site index is currently in edit mode
+
+        // ----------------------------------------------------
+        // HIGH FIDELITY ROCKET ANIMATION VECTOR SCENES DATA
+        // ----------------------------------------------------
+        const VISUAL_SCENES = {
+            CHECKING: `
+                <svg class="w-full h-full max-h-[180px]" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="180" fill="#090d16" rx="16"/>
+                    <!-- Multi-tier stars scrolling down rapidly -->
+                    <g class="star-fast">
+                        <circle cx="50" cy="20" r="1" fill="#fff" opacity="0.8"/>
+                        <circle cx="150" cy="60" r="1.5" fill="#38bdf8" opacity="0.6"/>
+                        <circle cx="280" cy="10" r="1" fill="#fff" opacity="0.9"/>
+                        <circle cx="350" cy="80" r="2" fill="#fff" opacity="0.4"/>
+                        <circle cx="100" cy="120" r="1" fill="#fff" opacity="0.7"/>
+                        <circle cx="220" cy="150" r="1.5" fill="#818cf8" opacity="0.5"/>
+                    </g>
+                    <g class="star-fast" style="animation-delay: -0.4s;">
+                        <circle cx="80" cy="-40" r="1.5" fill="#fff" opacity="0.8"/>
+                        <circle cx="180" cy="-10" r="1" fill="#fff" opacity="0.6"/>
+                        <circle cx="310" cy="-50" r="2" fill="#38bdf8" opacity="0.7"/>
+                        <circle cx="260" cy="90" r="1" fill="#fff" opacity="0.5"/>
+                    </g>
+                    <!-- Shaking Launch Rocket in the center -->
+                    <g transform="translate(200, 75)" class="rocket-shake">
+                        <!-- Flame Jet -->
+                        <path d="M-6,20 L0,45 L6,20 Z" fill="url(#takeoff-flame)">
+                            <animate attributeName="d" values="M-6,20 L0,45 L6,20 Z; M-8,20 L0,55 L8,20 Z; M-6,20 L0,40 L6,20 Z" dur="0.1s" repeatCount="indefinite"/>
+                        </path>
+                        <!-- Fins -->
+                        <path d="M-15,10 L-25,22 L-15,18 Z" fill="#38bdf8"/>
+                        <path d="M15,10 L25,22 L15,18 Z" fill="#38bdf8"/>
+                        <!-- Rocket Fuselage -->
+                        <path d="M0,-25 C12,-10 15,10 15,20 L-15,20 C-15,10 -12,-10 0,-25 Z" fill="#f8fafc" stroke="#1e293b" stroke-width="1.5"/>
+                        <!-- Nose Cap -->
+                        <path d="M0,-25 C5,-19 8,-12 8,-10 L-8,-10 C-8,-12 -5,-19 0,-25 Z" fill="#f43f5e"/>
+                        <!-- Window cabin -->
+                        <circle cx="0" cy="2" r="5" fill="#0ea5e9" stroke="#1e293b" stroke-width="1.5"/>
+                        <circle cx="-1.5" cy="0.5" r="1.5" fill="#fff" opacity="0.6"/>
+                    </g>
+                    <!-- Visual feedback status telemetry -->
+                    <text x="16" y="26" fill="#38bdf8" font-family="monospace" font-size="10" class="animate-pulse font-bold tracking-wider">LAUNCH_SEQUENCE: PROBING_ROUTE...</text>
+                    <text x="16" y="40" fill="#475569" font-family="monospace" font-size="9">THRUST: 100% | ORBITAL_PROBE: SEARCHING</text>
+                    <defs>
+                        <linearGradient id="takeoff-flame" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#f97316"/>
+                            <stop offset="50%" stop-color="#fb923c"/>
+                            <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            `,
+            UP: `
+                <svg class="w-full h-full max-h-[180px]" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="180" fill="#090d16" rx="16"/>
+                    <!-- Star system background -->
+                    <g class="star-pulse">
+                        <circle cx="40" cy="40" r="1" fill="#fff" opacity="0.8"/>
+                        <circle cx="340" cy="30" r="1.5" fill="#38bdf8" opacity="0.5"/>
+                        <circle cx="120" cy="20" r="1" fill="#fff" opacity="0.6"/>
+                        <circle cx="270" cy="50" r="2" fill="#fff" opacity="0.3"/>
+                    </g>
+                    <!-- Green planet of online targets rising -->
+                    <path d="M-50,180 Q200,122 450,180 Z" fill="#10b981" class="planet-rise"/>
+                    <path d="M-50,182 Q200,120 450,182 Z" fill="none" stroke="#34d399" stroke-width="3" opacity="0.3" class="planet-rise"/>
+                    
+                    <!-- Landing Victory Flag pops up -->
+                    <g transform="translate(232, 115)" class="flag-pop">
+                        <line x1="0" y1="35" x2="0" y2="0" stroke="#f8fafc" stroke-width="2"/>
+                        <path d="M0,0 L18,5 L0,10 Z" fill="#10b981"/>
+                        <circle cx="8" cy="5" r="2" fill="#fff"/>
+                    </g>
+
+                    <!-- Safe Landing Descent Rocket -->
+                    <g transform="translate(200, 112)" class="rocket-land">
+                        <!-- Gradual engine flame fadeout -->
+                        <path d="M-3,20 L0,30 L3,20 Z" fill="url(#land-flame)" class="land-fire"/>
+                        <!-- Fins -->
+                        <path d="M-15,10 L-24,22 L-15,18 Z" fill="#38bdf8"/>
+                        <path d="M15,10 L25,22 L15,18 Z" fill="#38bdf8"/>
+                        <!-- Rocket Core -->
+                        <path d="M0,-25 C12,-10 15,10 15,20 L-15,20 C-15,10 -12,-10 0,-25 Z" fill="#f8fafc" stroke="#1e293b" stroke-width="1.5"/>
+                        <!-- Nose Cap -->
+                        <path d="M0,-25 C5,-19 8,-12 8,-10 L-8,-10 C-8,-12 -5,-19 0,-25 Z" fill="#f43f5e"/>
+                        <!-- Cabin window (turns green to indicate online) -->
+                        <circle cx="0" cy="2" r="5" fill="#34d399" stroke="#1e293b" stroke-width="1.5"/>
+                        <circle cx="-1.5" cy="0.5" r="1.5" fill="#fff" opacity="0.6"/>
+                    </g>
+                    <!-- System log overlay text -->
+                    <text x="16" y="26" fill="#10b981" font-family="monospace" font-size="10" class="font-bold">ORBIT_ESTABLISHED: SUCCESS</text>
+                    <text x="16" y="40" fill="#475569" font-family="monospace" font-size="9">TARGET WEBSITE IS SECURE & RESPONDING SAFELY</text>
+                    <defs>
+                        <linearGradient id="land-flame" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#34d399"/>
+                            <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            `,
+            DOWN: `
+                <svg class="w-full h-full max-h-[180px] animate-screen-shake" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="180" fill="#090d16" rx="16"/>
+                    <!-- Dusty cratered dead volcanic planet -->
+                    <path d="M-50,180 Q200,132 450,180 Z" fill="#475569" class="planet-rise"/>
+                    <circle cx="160" cy="165" r="7" fill="#334155"/>
+                    <circle cx="242" cy="160" r="11" fill="#334155"/>
+
+                    <!-- Destroyed, crashed, sideways rocket -->
+                    <g transform="translate(190, 142) rotate(75)" class="rocket-crash">
+                        <!-- Shattered fins -->
+                        <path d="M-15,10 L-22,15 L-15,14 Z" fill="#ef4444"/>
+                        <path d="M15,10 L25,22 L15,18 Z" fill="#475569" opacity="0.4"/>
+                        <!-- Cracked charred fuselage hull -->
+                        <path d="M0,-25 C12,-10 15,10 15,20 L-15,20 C-15,10 -12,-10 0,-25 Z" fill="#94a3b8" stroke="#1e293b" stroke-width="1.5"/>
+                        <path d="M-6,2 L4,-5 L-4,-12" stroke="#1e293b" stroke-width="1.5" fill="none"/>
+                        <!-- Destroyed nose -->
+                        <path d="M0,-25 C5,-19 8,-12 8,-10 L-8,-10 C-8,-12 -5,-19 0,-25 Z" fill="#b91c1c"/>
+                        <!-- Smashed cabin window -->
+                        <circle cx="0" cy="2" r="5" fill="#334155" stroke="#1e293b" stroke-width="1.5"/>
+                        <line x1="-3" y1="2" x2="3" y2="2" stroke="#1e293b" stroke-width="1.5"/>
+                    </g>
+
+                    <!-- Realtime explosive particles and flames popping on crash impact -->
+                    <g transform="translate(210, 145)" class="explosion-cloud">
+                        <!-- Expanding visual smoke clouds -->
+                        <circle cx="-16" cy="-12" r="14" fill="#1e293b" opacity="0.8">
+                            <animate attributeName="r" values="0;18;15" dur="0.4s" fill="freeze"/>
+                        </circle>
+                        <circle cx="16" cy="-8" r="12" fill="#1e293b" opacity="0.7">
+                            <animate attributeName="r" values="0;16;12" dur="0.5s" fill="freeze"/>
+                        </circle>
+                        <!-- Dynamic expanding fire core explosion -->
+                        <circle cx="0" cy="-6" r="18" fill="#f97316">
+                            <animate attributeName="r" values="0;25;16" dur="0.3s" fill="freeze"/>
+                        </circle>
+                        <circle cx="-2" cy="-7" r="10" fill="#facc15">
+                            <animate attributeName="r" values="0;17;8" dur="0.35s" fill="freeze"/>
+                        </circle>
+                    </g>
+                    <!-- Warning messages -->
+                    <text x="16" y="26" fill="#f43f5e" font-family="monospace" font-size="10" class="animate-pulse font-bold">ROUTE_CRASHED: DESTINATION_DEAD</text>
+                    <text x="16" y="40" fill="#475569" font-family="monospace" font-size="9">THE PHYSICAL HOST IS NOT RESPONDING TO PING AUDITS</text>
+                </svg>
+            `,
+            NON_EXISTENT: `
+                <svg class="w-full h-full max-h-[180px]" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="180" fill="#090d16" rx="16"/>
+                    <!-- Lost deep space background -->
+                    <g class="star-pulse">
+                        <circle cx="35" cy="40" r="1" fill="#fff" opacity="0.8"/>
+                        <circle cx="350" cy="110" r="1.5" fill="#a5b4fc" opacity="0.6"/>
+                        <circle cx="140" cy="130" r="2" fill="#fff" opacity="0.3"/>
+                    </g>
+                    <!-- Floating lost rocket drifting aimlessly -->
+                    <g transform="translate(200, 85) rotate(-45)" class="rocket-float">
+                        <!-- Fins -->
+                        <path d="M-15,10 L-25,22 L-15,18 Z" fill="#6366f1"/>
+                        <path d="M15,10 L25,22 L15,18 Z" fill="#6366f1"/>
+                        <!-- White fuselage -->
+                        <path d="M0,-25 C12,-10 15,10 15,20 L-15,20 C-15,10 -12,-10 0,-25 Z" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <!-- Nose Cap (Indigo warning) -->
+                        <path d="M0,-25 C5,-19 8,-12 8,-10 L-8,-10 C-8,-12 -5,-19 0,-25 Z" fill="#818cf8"/>
+                        <!-- Cabin window flashing yellow caution light -->
+                        <circle cx="0" cy="2" r="5" fill="#eab308" stroke="#1e293b" stroke-width="1.5" class="animate-pulse"/>
+                    </g>
+                    <!-- Neon holographic Warning Bubble -->
+                    <g transform="translate(110, 18)" class="hologram-slide">
+                        <rect x="0" y="0" width="180" height="26" rx="6" fill="#4f46e5" fill-opacity="0.15" stroke="#6366f1" stroke-width="1.5"/>
+                        <text x="90" y="17" fill="#a5b4fc" font-family="monospace" font-size="9" font-weight="bold" text-anchor="middle">ERROR: DESTINATION NOT FOUND</text>
+                        <!-- Retro CRT terminal lines inside bubble -->
+                        <line x1="10" y1="5" x2="170" y2="5" stroke="#6366f1" stroke-dasharray="2,2" opacity="0.3"/>
+                        <line x1="10" y1="20" x2="170" y2="20" stroke="#6366f1" stroke-dasharray="2,2" opacity="0.3"/>
+                    </g>
+                    <!-- Telemetry -->
+                    <text x="16" y="160" fill="#475569" font-family="monospace" font-size="9" class="animate-pulse">DNS Query registries empty. Domain unregistered.</text>
+                </svg>
+            `,
+            UP_RESTRICTED: `
+                <svg class="w-full h-full max-h-[180px]" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="180" fill="#090d16" rx="16"/>
+                    <!-- Gray Cozy Moon landing surface -->
+                    <path d="M-50,180 Q200,126 450,180 Z" fill="#64748b" class="planet-rise"/>
+                    <!-- Cozy loopback computer/server house -->
+                    <g transform="translate(250, 131)">
+                        <rect x="-8" y="0" width="16" height="14" fill="#334155" rx="1"/>
+                        <polygon points="-10,0 0,-8 10,0" fill="#cbd5e1"/>
+                        <rect x="-2" y="4" width="4" height="10" fill="#f59e0b"/>
+                    </g>
+                    <!-- Blinking local loopback transmitter beacon -->
+                    <circle cx="250" cy="119" r="4" fill="none" stroke="#38bdf8" stroke-width="1.5" class="animate-ping" style="animation-duration: 2s;"/>
+
+                    <!-- Safe landing rocket cozy mode -->
+                    <g transform="translate(170, 114)" class="rocket-land">
+                        <!-- Fins -->
+                        <path d="M-15,10 L-24,22 L-15,18 Z" fill="#38bdf8"/>
+                        <path d="M15,10 L25,22 L15,18 Z" fill="#38bdf8"/>
+                        <!-- White Fuselage -->
+                        <path d="M0,-25 C12,-10 15,10 15,20 L-15,20 C-15,10 -12,-10 0,-25 Z" fill="#f8fafc" stroke="#1e293b" stroke-width="1.5"/>
+                        <!-- Amber Cozy Nose -->
+                        <path d="M0,-25 C5,-19 8,-12 8,-10 L-8,-10 C-8,-12 -5,-19 0,-25 Z" fill="#f59e0b"/>
+                        <!-- Window cabin -->
+                        <circle cx="0" cy="2" r="5" fill="#38bdf8" stroke="#1e293b" stroke-width="1.5"/>
+                    </g>
+                    <text x="16" y="26" fill="#f59e0b" font-family="monospace" font-size="10" class="font-bold">LOOPBACK_ACTIVE: LOCAL_BYPASS</text>
+                    <text x="16" y="40" fill="#475569" font-family="monospace" font-size="9">BYPASSING EXTERNAL WAN GATEWAYS. LOCAL ENVIRONMENT OK.</text>
+                </svg>
+            `,
+            INVALID: `
+                <svg class="w-full h-full max-h-[180px]" viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="180" fill="#090d16" rx="16"/>
+                    <!-- Static Rocket parked on launch scaffolds -->
+                    <g transform="translate(200, 120)">
+                        <!-- Scaffolds structures -->
+                        <line x1="-30" y1="35" x2="-30" y2="-40" stroke="#475569" stroke-width="3"/>
+                        <line x1="-30" y1="-10" x2="-15" y2="-10" stroke="#475569" stroke-width="2"/>
+                        <line x1="-30" y1="15" x2="-15" y2="15" stroke="#475569" stroke-width="2"/>
+                        
+                        <!-- Fins -->
+                        <path d="M-15,10 L-25,22 L-15,18 Z" fill="#64748b"/>
+                        <path d="M15,10 L25,22 L15,18 Z" fill="#64748b"/>
+                        <!-- Rocket Core -->
+                        <path d="M0,-25 C12,-10 15,10 15,20 L-15,20 C-15,10 -12,-10 0,-25 Z" fill="#cbd5e1" stroke="#475569" stroke-width="1.5"/>
+                        <!-- Scaffold Nose Cone -->
+                        <path d="M0,-25 C5,-19 8,-12 8,-10 L-8,-10 C-8,-12 -5,-19 0,-25 Z" fill="#64748b"/>
+                        <circle cx="0" cy="2" r="5" fill="#475569" stroke="#1e293b" stroke-width="1.5"/>
+                    </g>
+                    <!-- Base launch pad block -->
+                    <rect x="0" y="155" width="400" height="25" fill="#1e293b"/>
+                    
+                    <text x="16" y="26" fill="#ef4444" font-family="monospace" font-size="10" class="animate-pulse font-bold">LAUNCH_ABORTED: INVALID_COORDINATES</text>
+                    <text x="16" y="40" fill="#475569" font-family="monospace" font-size="9">ADDRESS SYNTAX FAILED. CHECK FORMAT CONFIGURATIONS.</text>
+                </svg>
+            `
+        };
+
+        window.onload = function() {
+            loadMonitoredSites();
+            renderHistory();
+            checkPopularSites();
+        };
+
+        // Load & Save Monitored Sites from LocalStorage
+        function loadMonitoredSites() {
+            const data = localStorage.getItem(SITES_DB_KEY);
+            if (data) {
+                monitoredSites = JSON.parse(data);
+            } else {
+                monitoredSites = [...defaultSites];
+                localStorage.setItem(SITES_DB_KEY, JSON.stringify(monitoredSites));
+            }
+            renderMonitoredSites();
+        }
+
+        function renderMonitoredSites() {
+            const grid = document.getElementById('popular-sites-grid');
+            grid.innerHTML = '';
+
+            monitoredSites.forEach(site => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-950/60 border border-slate-800/60 hover:border-slate-700 rounded-xl p-3 flex items-center justify-between gap-3 relative overflow-hidden transition-all duration-300 group";
+                
+                if (site.id === editingSiteId) {
+                    // Inline Edit Form State
+                    card.innerHTML = `
+                        <div class="flex flex-col gap-1.5 flex-grow min-w-0">
+                            <input type="text" id="edit-name-${site.id}" value="${site.name}" class="w-full bg-slate-900 border border-slate-800 focus:border-sky-500 rounded px-2 py-1 text-xs text-white outline-none font-semibold">
+                            <input type="text" id="edit-domain-${site.id}" value="${site.domain}" class="w-full bg-slate-900 border border-slate-800 focus:border-sky-500 rounded px-2 py-1 text-[10px] text-white outline-none code-font" onkeydown="if(event.key === 'Enter') saveEdit('${site.id}')">
+                        </div>
+                        <div class="flex items-center gap-1 flex-grow-0 shrink-0">
+                            <button onclick="saveEdit('${site.id}')" class="text-emerald-400 hover:text-emerald-300 p-1.5 transition-all" title="Save changes">
+                                <i class="fa-solid fa-check text-xs"></i>
+                            </button>
+                            <button onclick="cancelEdit()" class="text-slate-400 hover:text-white p-1.5 transition-all" title="Cancel editing">
+                                <i class="fa-solid fa-xmark text-xs"></i>
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    // Read-only state with Hover actions and double-click trigger
+                    card.innerHTML = `
+                        <div class="flex flex-col truncate min-w-0 flex-grow cursor-pointer" ondblclick="startEdit('${site.id}')" title="Double click to edit">
+                            <a href="https://${site.domain}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" 
+                               class="font-bold text-sm text-slate-200 hover:text-sky-400 hover:underline truncate inline-block w-fit" 
+                               title="Click to visit website">
+                                ${site.name} <i class="fa-solid fa-arrow-up-right-from-square text-[8px] ml-1 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            </a>
+                            <span class="text-[10px] text-slate-500 code-font truncate mt-0.5">${site.domain}</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <span class="text-[9px] text-slate-400 font-semibold px-2 py-0.5 bg-slate-800 rounded-full uppercase" id="badge-${site.id}">Checking</span>
+                            <button onclick="startEdit('${site.id}')" class="text-slate-500 hover:text-sky-400 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity duration-150 p-1.5" title="Edit monitor">
+                                <i class="fa-solid fa-pen-to-square text-xs"></i>
+                            </button>
+                            <button onclick="deleteMonitoredSite('${site.id}')" class="text-slate-500 hover:text-red-400 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity duration-150 p-1.5" title="Remove monitor">
+                                <i class="fa-solid fa-trash-can text-xs"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+                grid.appendChild(card);
+            });
+
+            if (monitoredSites.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-1 text-slate-500 text-xs py-8 text-center italic flex flex-col items-center gap-2">
+                        <i class="fa-solid fa-folder-open text-lg"></i>
+                        <span>No websites being monitored. Click 'Add' to customize your dashboard!</span>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleAddForm() {
+            const form = document.getElementById('add-site-form');
+            form.classList.toggle('hidden');
+            if (!form.classList.contains('hidden')) {
+                document.getElementById('new-site-name').focus();
+            }
+        }
+
+        function saveCustomSite() {
+            const nameField = document.getElementById('new-site-name');
+            const domainField = document.getElementById('new-site-domain');
+            
+            const name = nameField.value.trim();
+            let domain = domainField.value.trim().toLowerCase();
+
+            if (!name || !domain) {
+                showToast("Validation Error", "Please provide both a name and domain name.", "error");
+                return;
+            }
+
+            // Strip scheme protocols for domain matching
+            domain = domain.replace(/^(https?:\/\/)?(www\.)?/i, '').split('/')[0];
+            const domainRegex = /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})+$/;
+
+            if (!domainRegex.test(domain)) {
+                showToast("Invalid Address", "Please provide a valid registered domain pattern.", "error");
+                return;
+            }
+
+            const newSite = {
+                id: 'custom-' + Date.now(),
+                name: name,
+                domain: domain
+            };
+
+            monitoredSites.push(newSite);
+            localStorage.setItem(SITES_DB_KEY, JSON.stringify(monitoredSites));
+            
+            // Reset inputs & close
+            nameField.value = '';
+            domainField.value = '';
+            toggleAddForm();
+
+            renderMonitoredSites();
+            checkPopularSites();
+
+            showToast("Monitor Added", `Started tracking connections for ${name}.`, "success");
+        }
+
+        function startEdit(id) {
+            editingSiteId = id;
+            renderMonitoredSites();
+            const nameInput = document.getElementById(`edit-name-${id}`);
+            if (nameInput) {
+                nameInput.focus();
+                // Put cursor at end of input
+                const val = nameInput.value;
+                nameInput.value = '';
+                nameInput.value = val;
+            }
+        }
+
+        function cancelEdit() {
+            editingSiteId = null;
+            renderMonitoredSites();
+            checkPopularSites(); // Re-fetch connections to restore status badges
+        }
+
+        async function saveEdit(id) {
+            const nameField = document.getElementById(`edit-name-${id}`);
+            const domainField = document.getElementById(`edit-domain-${id}`);
+            
+            if (!nameField || !domainField) return;
+
+            const name = nameField.value.trim();
+            let domain = domainField.value.trim().toLowerCase();
+
+            if (!name || !domain) {
+                showToast("Validation Error", "Please provide both a name and domain name.", "error");
+                return;
+            }
+
+            // Clean domain prefix
+            domain = domain.replace(/^(https?:\/\/)?(www\.)?/i, '').split('/')[0];
+            const domainRegex = /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})+$/;
+
+            if (!domainRegex.test(domain)) {
+                showToast("Invalid Address", "Please provide a valid registered domain pattern.", "error");
+                return;
+            }
+
+            const index = monitoredSites.findIndex(site => site.id === id);
+            if (index !== -1) {
+                monitoredSites[index].name = name;
+                monitoredSites[index].domain = domain;
+                localStorage.setItem(SITES_DB_KEY, JSON.stringify(monitoredSites));
+                
+                editingSiteId = null;
+                renderMonitoredSites();
+                await checkPopularSites();
+
+                showToast("Monitor Updated", `Changes saved for ${name}.`, "success");
+            }
+        }
+
+        async function deleteMonitoredSite(id) {
+            const index = monitoredSites.findIndex(site => site.id === id);
+            if (index !== -1) {
+                const deletedName = monitoredSites[index].name;
+                monitoredSites.splice(index, 1);
+                localStorage.setItem(SITES_DB_KEY, JSON.stringify(monitoredSites));
+                
+                // If we were editing this site, clear editing state
+                if (editingSiteId === id) {
+                    editingSiteId = null;
+                }
+
+                renderMonitoredSites();
+                checkPopularSites();
+
+                showToast("Monitor Removed", `Stopped tracking connections for ${deletedName}.`, "success");
+            }
+        }
+
+        // Custom Toast Notification System
+        function showToast(title, message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = "flex items-start gap-3 bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-2xl transition-all duration-300 translate-y-5 opacity-0 pointer-events-auto max-w-sm";
+            
+            const iconColor = type === 'success' ? 'text-emerald-400' : 'text-amber-400';
+            const icon = type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation';
+
+            toast.innerHTML = `
+                <i class="fa-solid ${icon} ${iconColor} text-lg mt-0.5"></i>
+                <div>
+                    <h4 class="font-bold text-sm text-white">${title}</h4>
+                    <p class="text-xs text-slate-400 mt-1">${message}</p>
+                </div>
+            `;
+            container.appendChild(toast);
+
+            // Animate In
+            setTimeout(() => {
+                toast.classList.remove('translate-y-5', 'opacity-0');
+            }, 10);
+
+            // Animate Out & Remove
+            setTimeout(() => {
+                toast.classList.add('translate-y-5', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        async function runWebsiteUptimeCheck(rawUrl) {
+            let cleanUrl = rawUrl.trim().toLowerCase();
+            if (!cleanUrl) return { status: 'INVALID', details: 'No URL entered.' };
+
+            // Strip prefix protocols
+            let hostname = cleanUrl.replace(/^(https?:\/\/)?(www\.)?/i, '').split('/')[0];
+            
+            // Format validation: must match a general domain name pattern
+            const domainRegex = /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})+$/;
+            if (!domainRegex.test(hostname)) {
+                return { 
+                    status: 'INVALID', 
+                    details: 'This is not a registered domain format. It does not exist globally.',
+                    host: hostname 
+                };
+            }
+
+            // Local loopback detection
+            const localHosts = ['localhost', '127.0.0.1', '0.0.0.0'];
+            if (localHosts.includes(hostname) || hostname.endsWith('.local')) {
+                return {
+                    status: 'UP_RESTRICTED',
+                    details: 'Private local loopback address detected. Standard external diagnostics bypassed.',
+                    host: hostname,
+                    latency: 1
+                };
+            }
+
+            const checkUrl = 'https://' + hostname;
+            const startTime = performance.now();
+
+            try {
+                // Stage 1: Resource loading handshake probe (Bypasses CORS entirely)
+                const imgCheck = new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => resolve(true);
+                    img.onerror = () => reject(false);
+                    img.src = `${checkUrl}/favicon.ico?nocache=${Date.now()}`;
+                    setTimeout(() => reject(false), 2000);
+                });
+
+                await imgCheck;
+                const latency = Math.round(performance.now() - startTime);
+                return {
+                    status: 'UP',
+                    details: 'Website is responding directly to client browser queries.',
+                    host: hostname,
+                    latency: latency
+                };
+
+            } catch (stage1Error) {
+                // Stage 2: Direct Opaque Fetch handshakes
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+                    await fetch(checkUrl, {
+                        mode: 'no-cors',
+                        signal: controller.signal,
+                        cache: 'no-store'
+                    });
+
+                    clearTimeout(timeoutId);
+                    const latency = Math.round(performance.now() - startTime);
+
+                    return {
+                        status: 'UP',
+                        details: 'Server handshaked successfully despite local cross-origin constraints.',
+                        host: hostname,
+                        latency: latency
+                    };
+
+                } catch (stage2Error) {
+                    let dnsData = null;
+                    try {
+                        const dnsResponse = await fetch(`https://cloudflare-dns.com/dns-query?name=${hostname}&type=A`, {
+                            headers: { 'Accept': 'application/dns-json' }
+                        });
+                        dnsData = await dnsResponse.json();
+                    } catch (cfError) {
+                        // Fallback to Google DNS over HTTPS
+                        try {
+                            const dnsResponse = await fetch(`https://dns.google/resolve?name=${hostname}&type=A`);
+                            dnsData = await dnsResponse.json();
+                        } catch (googleError) {
+                            dnsData = null;
+                        }
+                    }
+
+                    if (dnsData) {
+                        // Status 3 means NXDOMAIN (Non-Existent Domain)
+                        if (dnsData.Status === 3) {
+                            return {
+                                status: 'NON_EXISTENT',
+                                details: 'This domain name is not registered. It does not exist in global DNS registries.',
+                                host: hostname,
+                                latency: 0
+                            };
+                        } else if (dnsData.Status === 0) {
+                            if (dnsData.Answer && dnsData.Answer.length > 0) {
+                                return {
+                                    status: 'DOWN',
+                                    details: 'This is a registered domain, but the web host server is completely offline or refusing connections.',
+                                    host: hostname,
+                                    latency: 0
+                                };
+                            } else {
+                                return {
+                                    status: 'NON_EXISTENT',
+                                    details: 'Global DNS directories resolved this name but returned no active address records.',
+                                    host: hostname,
+                                    latency: 0
+                                };
+                            }
+                        } else {
+                            return {
+                                status: 'NON_EXISTENT',
+                                details: 'This domain name is unregistered, inactive, or has expired DNS configurations.',
+                                host: hostname,
+                                latency: 0
+                            };
+                        }
+                    } else {
+                        return {
+                            status: 'DOWN',
+                            details: 'Unable to resolve server registries. Host server connections failed.',
+                            host: hostname,
+                            latency: 0
+                        };
+                    }
+                }
+            }
+        }
+
+        function updateResultsUI(result) {
+            const resultsCard = document.getElementById('results-card');
+            const iconBg = document.getElementById('result-icon-bg');
+            const verdict = document.getElementById('result-verdict');
+            const hostText = document.getElementById('result-host');
+            const details = document.getElementById('result-details');
+            const latency = document.getElementById('result-latency');
+            const reportBtn = document.getElementById('report-outage-btn');
+            const visitBtn = document.getElementById('visit-domain-btn');
+
+            resultsCard.className = "bg-slate-950/60 border border-slate-800/80 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 transition-all duration-300 shadow-2xl";
+            reportBtn.classList.add('hidden');
+            visitBtn.classList.add('hidden');
+
+            hostText.innerText = result.host || 'invalid';
+
+            if (result.status === 'UP') {
+                resultsCard.classList.add('border-emerald-500/30', 'glow-green');
+                iconBg.className = "h-16 w-16 rounded-full flex items-center justify-center text-2xl flex-shrink-0 bg-emerald-500/10 text-emerald-400 ring-4 ring-emerald-500/5";
+                iconBg.innerHTML = '<i class="fa-solid fa-circle-check animate-bounce"></i>';
+                verdict.className = "font-extrabold text-xl tracking-tight text-emerald-400";
+                verdict.innerText = "The Site's Up and Running , It's Just You!";
+                details.innerText = result.details;
+                latency.innerText = `${result.latency} ms`;
+                
+                // Allow user to visit site
+                visitBtn.href = `https://${result.host}`;
+                visitBtn.classList.remove('hidden');
+            } else if (result.status === 'UP_RESTRICTED') {
+                resultsCard.classList.add('border-amber-500/30');
+                iconBg.className = "h-16 w-16 rounded-full flex items-center justify-center text-2xl flex-shrink-0 bg-amber-500/10 text-amber-400 ring-4 ring-amber-500/5";
+                iconBg.innerHTML = '<i class="fa-solid fa-circle-minus"></i>';
+                verdict.className = "font-extrabold text-xl tracking-tight text-amber-400";
+                verdict.innerText = "Localhost Bypass";
+                details.innerText = result.details;
+                latency.innerText = `N/A`;
+
+                visitBtn.href = `http://${result.host}`;
+                visitBtn.classList.remove('hidden');
+            } else if (result.status === 'DOWN') {
+                resultsCard.classList.add('border-red-500/30', 'glow-red');
+                iconBg.className = "h-16 w-16 rounded-full flex items-center justify-center text-2xl flex-shrink-0 bg-red-500/10 text-red-400 ring-4 ring-red-500/5";
+                iconBg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
+                verdict.className = "font-extrabold text-xl tracking-tight text-red-400";
+                verdict.innerText = "It's Globally Down!";
+                details.innerText = result.details;
+                latency.innerText = `N/A`;
+                
+                reportBtn.classList.remove('hidden');
+                
+                // Offer navigation even though offline
+                visitBtn.href = `https://${result.host}`;
+                visitBtn.classList.remove('hidden');
+            } else if (result.status === 'NON_EXISTENT') {
+                resultsCard.classList.add('border-indigo-500/30', 'glow-blue');
+                iconBg.className = "h-16 w-16 rounded-full flex items-center justify-center text-2xl flex-shrink-0 bg-indigo-500/10 text-indigo-400 ring-4 ring-indigo-500/5";
+                iconBg.innerHTML = '<i class="fa-solid fa-magnifying-glass-minus"></i>';
+                verdict.className = "font-extrabold text-xl tracking-tight text-indigo-400";
+                verdict.innerText = "Not a Real Website!";
+                details.innerText = result.details;
+                latency.innerText = `N/A`;
+            } else {
+                resultsCard.classList.add('border-slate-800');
+                iconBg.className = "h-16 w-16 rounded-full flex items-center justify-center text-2xl flex-shrink-0 bg-slate-800 text-slate-400";
+                iconBg.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                verdict.className = "font-extrabold text-xl tracking-tight text-slate-400";
+                verdict.innerText = "Invalid Address Format";
+                details.innerText = result.details || 'Please format the target domain correctly.';
+                latency.innerText = `---`;
+            }
+        }
+
+        async function runDiagnostic() {
+            const inputField = document.getElementById('url-input');
+            const targetUrl = inputField.value.trim();
+            if (!targetUrl) return;
+
+            const resultsCard = document.getElementById('results-card');
+            const spaceStageContainer = document.getElementById('space-stage-container');
+            const spaceStage = document.getElementById('space-stage');
+
+            // Hide previous results card while launching
+            resultsCard.classList.add('hidden');
+            
+            // Show space view and ignite checking state rocket
+            spaceStageContainer.classList.remove('hidden');
+            spaceStage.innerHTML = VISUAL_SCENES.CHECKING;
+
+            const result = await runWebsiteUptimeCheck(targetUrl);
+            
+            // Minimum flight duration of 1.5 seconds for complete visual trajectory immersion
+            setTimeout(() => {
+                // Fetch dynamic vector scene
+                const activeScene = VISUAL_SCENES[result.status] || VISUAL_SCENES.INVALID;
+                spaceStage.innerHTML = activeScene;
+                
+                // Mount diagnostic details card
+                updateResultsUI(result);
+                
+                if (result.status !== 'INVALID') {
+                    saveToHistory(result);
+                }
+            }, 1500);
+        }
+
+        async function checkPopularSites() {
+            for (const site of monitoredSites) {
+                const badge = document.getElementById(`badge-${site.id}`);
+                if (!badge) continue;
+
+                badge.innerText = "Checking";
+                badge.className = "text-[9px] text-slate-400 font-semibold px-2 py-0.5 bg-slate-800/50 rounded-full uppercase animate-pulse border border-slate-800";
+                
+                const response = await runWebsiteUptimeCheck(site.domain);
+                
+                if (response.status === 'UP' || response.status === 'UP_RESTRICTED') {
+                    badge.innerText = "Online";
+                    badge.className = "text-[9px] text-emerald-400 font-semibold px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full uppercase";
+                } else if (response.status === 'NON_EXISTENT') {
+                    badge.innerText = "Fake DNS";
+                    badge.className = "text-[9px] text-indigo-400 font-semibold px-2 py-0.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full uppercase";
+                } else {
+                    badge.innerText = "Offline";
+                    badge.className = "text-[9px] text-red-400 font-semibold px-2 py-0.5 bg-red-500/10 border border-red-500/20 rounded-full uppercase animate-pulse";
+                }
+            }
+        }
+
+        function registerUserOutage() {
+            const host = document.getElementById('result-host').innerText;
+            showToast(
+                "Local Outage Logged", 
+                `Outage logged locally for ${host}. Diagnostic tracing files saved to console.`, 
+                'success'
+            );
+        }
+
+        function saveToHistory(result) {
+            const history = JSON.parse(localStorage.getItem(DIAG_DB_KEY)) || [];
+            const newDiag = {
+                id: Date.now(),
+                host: result.host,
+                status: result.status,
+                latency: result.latency || 'N/A',
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+
+            // Always add the newest query directly to history
+            history.unshift(newDiag);
+            localStorage.setItem(DIAG_DB_KEY, JSON.stringify(history.slice(0, 5)));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const historyContainer = document.getElementById('history-container');
+            const emptyHistory = document.getElementById('empty-history');
+            const data = JSON.parse(localStorage.getItem(DIAG_DB_KEY)) || [];
+
+            // Clear previous DOM entries first so updates show instantly
+            historyContainer.innerHTML = '';
+
+            if (data.length === 0) {
+                emptyHistory.classList.remove('hidden');
+                return;
+            }
+
+            emptyHistory.classList.add('hidden');
+
+            data.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "flex items-center justify-between border-b border-slate-900/60 pb-2 mb-2 last:border-none last:mb-0 text-sm";
+                
+                const statusColorClass = (item.status === 'UP' || item.status === 'UP_RESTRICTED') ? 'text-emerald-400' : (item.status === 'NON_EXISTENT' ? 'text-indigo-400' : 'text-red-400');
+                const statusIcon = (item.status === 'UP' || item.status === 'UP_RESTRICTED') ? 'fa-circle-check' : (item.status === 'NON_EXISTENT' ? 'fa-magnifying-glass-minus' : 'fa-circle-xmark');
+
+                row.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid ${statusIcon} ${statusColorClass}"></i>
+                        <span class="font-bold text-slate-300 code-font">${item.host}</span>
+                    </div>
+                    <div class="flex items-center gap-4 text-xs text-slate-400">
+                        <span>${item.latency === 'N/A' || item.latency === 0 ? '---' : item.latency + ' ms'}</span>
+                        <span class="text-slate-600 font-medium">${item.timestamp}</span>
+                    </div>
+                `;
+                historyContainer.appendChild(row);
+            });
+        }
+
+        function clearHistory() {
+            localStorage.setItem(DIAG_DB_KEY, JSON.stringify([]));
+            renderHistory();
+            showToast("Audit Trail Cleared", "The local session logs have been purged successfully.", "success");
+        }
+    </script>
+</body>
+</html>
